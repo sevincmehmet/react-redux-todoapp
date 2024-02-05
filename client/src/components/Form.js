@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodosAsync } from "../redux/todos/todosSlice";
+import { addTodosAsync } from "../redux/todos/services";
 import Loading from "./Loading";
 
 export default function Form() {
