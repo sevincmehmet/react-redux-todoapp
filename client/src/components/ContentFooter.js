@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeActiveFilter, clearCompleted } from "../redux/todos/todosSlice";
+import { changeActiveFilter } from "../redux/todos/todosSlice";
+import { clearCompletedAsync } from "../redux/todos/services";
 
 export default function ContentFooter() {
     const dispatch = useDispatch();
@@ -12,6 +13,15 @@ export default function ContentFooter() {
     useEffect(() => {
         localStorage.setItem('activeFilter', activeFilter)
     }, [activeFilter])
+
+
+    const handleComplateDestroy = () => {
+        if(items.filter((oItem) => oItem.completed).length <= 0)
+            return alert('The content of your complate todos is empty')     
+
+        if (window.confirm('Are you sure ?'))
+            dispatch(clearCompletedAsync())
+    }
 
     return (
         <footer className="footer">
@@ -46,7 +56,7 @@ export default function ContentFooter() {
 
             <button
                 className="clear-completed"
-                onClick={() => dispatch(clearCompleted())}
+                onClick={() => handleComplateDestroy()}
             >
                 Clear completed
             </button>

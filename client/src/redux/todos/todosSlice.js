@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getTodosAsync, addTodosAsync, toggleTodoAsync, removeTodoAsync } from "./services";
+import { getTodosAsync, addTodosAsync, toggleTodoAsync, removeTodoAsync, clearCompletedAsync } from "./services";
 
 export const todosSlice = createSlice({
     name: 'todos',
@@ -30,10 +30,6 @@ export const todosSlice = createSlice({
         changeActiveFilter: (state, action) => {
             state.activeFilter = action.payload;
         },
-        clearCompleted: (state) => {
-            const filtered = state.items.filter(oItem => !oItem.completed);
-            state.items = filtered;
-        }
     },
     extraReducers: (builder) => {
         // get todos
@@ -73,6 +69,10 @@ export const todosSlice = createSlice({
             const filtered = state.items.filter((oItem) => oItem.id !== id)
             state.items = filtered
         })
+        builder.addCase(clearCompletedAsync.fulfilled, (state, action) => {
+            const filtered = state.items.filter((oItem) => !oItem.completed)
+            state.items = filtered;
+        })
     }
 })
 
@@ -90,5 +90,5 @@ export const selectFilteredTodos = (state) => {
 }
 
 
-export const { changeActiveFilter, clearCompleted } = todosSlice.actions;
+export const { changeActiveFilter } = todosSlice.actions;
 export default todosSlice.reducer;
